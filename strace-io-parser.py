@@ -7,12 +7,14 @@ import datetime
 
 from collections import defaultdict
 
+from optparse import OptionParser
+
 DEBUG = False
 # DEBUG = True
 LOG = "strace.log"
 
-TOP_NUMBER_OPERATIONS = 5
-TOP_NUMBER_VOLUME = 5
+TOP_NUMBER_OPERATIONS = 10
+TOP_NUMBER_VOLUME = 3
 
 OPEN_REGEX = re.compile('open\("(?P<filepath>[^"]+)", [^\)]*\) = (?P<descriptor>[0-9]+)')
 WRITE_REGEX = re.compile('write\((?P<descriptor>[0-9]+), "[^"]+"(\.)*, (?P<amount>[0-9]+)\)')
@@ -146,8 +148,23 @@ def main(logfile=LOG):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print 'No file given'
-        sys.exit(1)
-    fp = sys.argv[1]
-    main(fp)
+
+    parser = OptionParser()
+    usage = "./strace-io-parser.py [-o 3] [-b 10] [-d] strace.log"
+    parser.set_usage(usage)
+
+    parser.add_option('-b', dest="top_bytes", default=TOP_NUMBER_VOLUME,
+            action="store", type="int")
+    parser.add_option('-o', dest="top_ops",
+            default=TOP_NUMBER_OPERATIONS, action="store", type="int")
+    parser.add_option('-d', '--debug', dest="debug", default=DEBUG,
+            action="store_true")
+
+    (option, args) = parser.parse_args()
+    TOP_NUMBER_OPERATIONS = option.top_ops
+    TOP_NUMBER_VOLUME = option.top_bytes
+    DEBUG = option.debug
+
+    if len(args) != 1:
+        parser.error("incorrect number of arguments")
+    main(args[0])
