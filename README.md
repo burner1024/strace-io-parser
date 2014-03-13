@@ -7,6 +7,9 @@ Sample usage:
 strace -f -p PID_OF_PROCESS -T -tt -o strace.log
 (Ctrl-C)
 
+python strace-io-parser.py 
+Usage: ./strace-io-parser.py [-o 3] [-b 10] [-d] strace.log
+
 ./strace-io-parser.py strace.log
 
 Total strace time: 587.045493 seconds
