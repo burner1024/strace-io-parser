@@ -5,7 +5,7 @@ Sample usage:
 
 ```
 strace -f -p PID_OF_PROCESS -T -tt -o strace.log
-(Ctrl -c)
+(Ctrl-C)
 
 ./strace-io-parser.py strace.log
 
