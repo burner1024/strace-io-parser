@@ -154,11 +154,13 @@ if __name__ == '__main__':
     parser.set_usage(usage)
 
     parser.add_option('-b', dest="top_bytes", default=TOP_NUMBER_VOLUME,
-            action="store", type="int")
+            action="store", type="int",
+            help="number of files that have top volume to display")
     parser.add_option('-o', dest="top_ops",
-            default=TOP_NUMBER_OPERATIONS, action="store", type="int")
+            default=TOP_NUMBER_OPERATIONS, action="store", type="int",
+            help="number of files that have top operations to display")
     parser.add_option('-d', '--debug', dest="debug", default=DEBUG,
-            action="store_true")
+            action="store_true", help="turn debug on")
 
     (option, args) = parser.parse_args()
     TOP_NUMBER_OPERATIONS = option.top_ops
